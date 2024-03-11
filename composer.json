@@ -1,0 +1,14 @@
+{
+    "name": "markytek/debtrelief4u",
+    "authors": [
+        {
+            "name": "Niraj Kumar Chauhan",
+            "email": "mail.nirajchauhan@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "7.8.0",
+        "waavi/sanitizer": "1.0.16",
+        "shieldon/web-security": "^1.0"
+    }
+}
