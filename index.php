@@ -99,6 +99,7 @@
                             <br>
                             <!-- fieldsets -->
                             <input type="hidden" name="req_id" value="<?php echo $req_id; ?>">
+                            <input type="hidden" name="lp_action" value="test">
                             <input type="hidden" name="ip_address"
                                 value="<?php echo $reqSanitised['remoteAddress']; ?>">
                             <input type="hidden" name="source" value="<?php echo $reqSanitised["source"]; ?>">
