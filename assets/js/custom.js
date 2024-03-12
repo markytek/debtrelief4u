@@ -97,4 +97,7 @@ $(document).ready(function () {
         return false;
     })
 
+    // input masking
+    $("#phoneNumber").inputmask("(999)-999-9999");
+    $("#zipCode").inputmask("99999");
 });

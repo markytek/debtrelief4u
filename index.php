@@ -2,7 +2,7 @@
    require __DIR__ . '/vendor/autoload.php';
    use \Waavi\Sanitizer\Sanitizer;
    $xss = new \Shieldon\Security\Xss();
-   // $_GET = $xss->clean($_GET);
+   $_GET = $xss->clean($_GET);
    $phone = '(888) 226-9524';
    $tel = '18882269524';
    $year = date('Y');
@@ -19,7 +19,12 @@
       's3'                    => isset($_GET['s3'])?$_GET['s3']:'',
       's4'                    => isset($_GET['s4'])?$_GET['s4']:'',
       's5'                    => isset($_GET['s5'])?$_GET['s5']:'',
-      'userAgent'             => isset($_SERVER["HTTP_USER_AGENT"])?$_SERVER["HTTP_USER_AGENT"]: '',
+      'userAgent'             => isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']: '',
+      'landing_page_url'      => '',
+      'lp_campaign_id'        => '21014',
+      'lp_supplier_id'        => '51781',
+      'lp_key'                => 'xv16tl072i6omd',
+
    ];
    
    $reqFilters = [];
@@ -32,11 +37,11 @@
    $reqSanitised = $sanitizer->sanitize();
    
    
-   if (!empty($reqSanitised["reqId"])) {
-      $req_id = $reqSanitised["reqId"];
+   if (!empty($reqSanitised['reqId'])) {
+      $req_id = $reqSanitised['reqId'];
    } else {
-      if (!empty($reqSanitised["cid"])) {
-          $req_id = $reqSanitised["cid"];
+      if (!empty($reqSanitised['cid'])) {
+          $req_id = $reqSanitised['cid'];
       } else {
           $req_id = '';
       }
@@ -63,9 +68,6 @@
 </head>
 
 <body id="top">
-    <pre>
-         <?php print_r($reqData);?>
-   </pre>
     <header class="page-header">
         <div class="container">
             <div class="page-header-wrapper">
@@ -87,7 +89,7 @@
                 </div>
                 <div class="masterhead-right" id="formApp">
                     <div class="card">
-                        <form id="msform">
+                        <form id="msform" action="https://api.leadprosper.io/ingest" method="post">
                             <!-- progressbar -->
                             <ul id="progressbar">
                                 <li class="active" id="account"></li>
@@ -96,6 +98,19 @@
                             </ul>
                             <br>
                             <!-- fieldsets -->
+                            <input type="hidden" name="req_id" value="<?php echo $req_id; ?>">
+                            <input type="hidden" name="ip_address"
+                                value="<?php echo $reqSanitised['remoteAddress']; ?>">
+                            <input type="hidden" name="source" value="<?php echo $reqSanitised["source"]; ?>">
+                            <input type="hidden" name="lp_subid1" value="<?php echo $reqSanitised["s1"]; ?>">
+                            <input type="hidden" name="lp_subid2" value="<?php echo $reqSanitised["s2"]; ?>">
+                            <input type="hidden" name="lp_subid3" value="<?php echo $reqSanitised["s3"]; ?>">
+                            <input type="hidden" name="lp_subid4" value="<?php echo $reqSanitised["s4"]; ?>">
+                            <input type="hidden" name="lp_subid5" value="<?php echo $reqSanitised["s5"]; ?>">
+                            <input type="hidden" name="user_agent" value="<?php echo $reqSanitised["userAgent"];?>">
+                            <input type="hidden" name="lp_campaign_id" value="<?php echo $reqSanitised["lp_campaign_id"] ?>">
+                            <input type="hidden" name="landing_page_url" value="<?php echo $reqSanitised["landing_page_url"] ?>">
+                            
                             <fieldset>
                                 <div class="form-card">
                                     <div class="row">
@@ -105,10 +120,11 @@
                                     </div>
                                     <div class="price-rage-value">
                                         <div class="value">10000</div>
-                                        <input type="range" min="10000" max="100000" step="1000" value="0">
+                                        <input type="range" name="debt_amount" min="10000" max="100000" step="1000"
+                                            value="0">
                                     </div>
                                 </div>
-                                <input type="button" name="next" class="next action-button" value="Continue >" />
+                                <input type="button" name="next" class="next action-button" value="Continue" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
@@ -121,14 +137,14 @@
                                         <div class="col-12">
                                             <div class="form-col">
                                                 <label class="fieldlabels">Zip Code *</label>
-                                                <input type="number" name="fname" placeholder="Please Enter Zip Code" />
+                                                <input id="zipCode" type="text" name="zip_code" placeholder="#####" required/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <input type="button" name="previous" class="previous action-button-previous"
-                                    value="< Back" />
-                                <input type="button" name="next" class="next action-button" value="Continue >" />
+                                    value="Back" />
+                                <input type="button" name="next" class="next action-button" value="Continue" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
@@ -141,41 +157,48 @@
                                         <div class="col-12 col-lg-6">
                                             <div class="form-col">
                                                 <label class="fieldlabels">First Name *</label>
-                                                <input type="text" name="" placeholder="" />
+                                                <input type="text" name="first_name" placeholder="" required/>
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-col">
                                                 <label class="fieldlabels">Last Name *</label>
-                                                <input type="text" name="" placeholder="" />
+                                                <input type="text" name="last_name" placeholder="" required/>
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-col">
                                                 <label class="fieldlabels">Email Address *</label>
-                                                <input type="Email" name="" placeholder="" />
+                                                <input type="Email" name="email" placeholder="" required/>
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-col">
                                                 <label class="fieldlabels">Phone *</label>
-                                                <input type="number" name="" placeholder="" />
+                                                <input id="phoneNumber" type="text" name="phone"
+                                                    placeholder="(###)-###-####"" required/>
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="form-info">By clicking "Submit" you consent to allowing Debt Relief to
-                                        contact you as described below.</p>
-                                </div>
-                                <input type="button" name="previous" class="previous action-button-previous"
-                                    value="< Back" />
-                                <input type="button" name="next" class="next action-button" value="Continue >" />
-                                <p class="form-info">By submitting this form, I am providing Debt Relief, with express
-                                    written consent to contact me regarding product offerings by SMS/text messages or by
-                                    using an auto dialer (or automated means) at the phone number(s) provided and such
-                                    consent is not a condition of a purchase. I further consent to contact before 8am or
-                                    after 9pm in my local time to allow for a prompt response to this inquiry. Message
-                                    and data rates may apply. I also consent and agree to Debt Relief’s <a
-                                        href="#">Privacy Policy</a> and <a href="#">Terms of Use.</a></p>
+                                    <p class=" form-info">By clicking "Submit" you consent to allowing Debt Relief to
+                                                contact you as described below.</p>
+                                            </div>
+                                            <input type="button" name="previous" class="previous action-button-previous"
+                                                value="Back" />
+                                            <input type="button" name="next" class="next action-button"
+                                                value="Continue" />
+                                            <p class="form-info">By submitting this form, I am providing Debt Relief,
+                                                with express
+                                                written consent to contact me regarding product offerings by SMS/text
+                                                messages or by
+                                                using an auto dialer (or automated means) at the phone number(s)
+                                                provided and such
+                                                consent is not a condition of a purchase. I further consent to contact
+                                                before 8am or
+                                                after 9pm in my local time to allow for a prompt response to this
+                                                inquiry. Message
+                                                and data rates may apply. I also consent and agree to Debt Relief’s <a
+                                                    href="#">Privacy Policy</a> and <a href="#">Terms of Use.</a></p>
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
@@ -423,9 +446,28 @@
             </div>
         </div>
     </footer>
+    <!-- TrustedForm -->
+    <script type="text/javascript">
+    (function() {
+        var tf = document.createElement('script');
+        tf.type = 'text/javascript';
+        tf.async = true;
+        tf.src = ("https:" == document.location.protocol ? 'https' : 'http') +
+            "://api.trustedform.com/trustedform.js?field=trustedform_cert_url&ping_field=xxTrustedFormPingUrl&l=" +
+            new Date().getTime() + Math.random();
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(tf, s);
+    })();
+    </script>
+    <noscript>
+        <img src="https://api.trustedform.com/ns.gif" />
+    </noscript>
+    <!-- End TrustedForm -->
 
 
     <script src="assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="assets/js/form-validation.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
     <script src="assets/js/custom.js" type="text/javascript"></script>
 
 </body>
