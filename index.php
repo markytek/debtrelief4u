@@ -99,7 +99,6 @@
                             <br>
                             <!-- fieldsets -->
                             <input type="hidden" name="req_id" value="<?php echo $req_id; ?>">
-                            <input type="hidden" name="lp_action" value="test">
                             <input type="hidden" name="ip_address"
                                 value="<?php echo $reqSanitised['remoteAddress']; ?>">
                             <input type="hidden" name="source" value="<?php echo $reqSanitised["source"]; ?>">
@@ -119,11 +118,18 @@
                                             <h2 class="fs-title">Choose your debt amount*</h2>
                                         </div>
                                     </div>
-                                    <div class="price-rage-value">
+                                    <!-- <div class="price-rage-value">
                                         <div class="value">10000</div>
-                                        <input type="range" name="debt_amount" min="10000" max="100000" step="1000"
-                                            value="0">
-                                    </div>
+                                        <input type="range" name="debt_amount" min="10000" max="100000" step="1000" value="0">
+                                    </div> -->
+
+                                    <div class="range-slider price-rage-value">
+                                    <!-- <div class="value"></div> -->
+                                    <div id="tooltip"></div>
+                                    <input id="range" type="range" step="10" value="200" min="10000" max="100000">
+                                </div>
+
+
                                 </div>
                                 <input type="button" name="next" class="next action-button" value="Continue" />
                             </fieldset>
