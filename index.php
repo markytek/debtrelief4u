@@ -20,7 +20,6 @@
       's4'                    => isset($_GET['s4'])?$_GET['s4']:'',
       's5'                    => isset($_GET['s5'])?$_GET['s5']:'',
       'userAgent'             => isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']: '',
-      'landing_page_url'      => '',
       'lp_campaign_id'        => '21014',
       'lp_supplier_id'        => '51781',
       'lp_key'                => 'xv16tl072i6omd',
@@ -107,9 +106,9 @@
                             <input type="hidden" name="lp_subid3" value="<?php echo $reqSanitised["s3"]; ?>">
                             <input type="hidden" name="lp_subid4" value="<?php echo $reqSanitised["s4"]; ?>">
                             <input type="hidden" name="lp_subid5" value="<?php echo $reqSanitised["s5"]; ?>">
-                            <input type="hidden" name="user_agent" value="<?php echo $reqSanitised["userAgent"];?>">
-                            <input type="hidden" name="lp_campaign_id" value="<?php echo $reqSanitised["lp_campaign_id"] ?>">
-                            <input type="hidden" name="landing_page_url" value="<?php echo $reqSanitised["landing_page_url"] ?>">
+                            <input type="hidden" name="user_agent" value="<?php echo $reqSanitised["userAgent"]; ?>">
+                            <input type="hidden" name="lp_campaign_id" value="<?php echo $reqSanitised["lp_campaign_id"]; ?>">
+                            <input type="hidden" name="landing_page_url" value>
                             
                             <fieldset>
                                 <div class="form-card">
